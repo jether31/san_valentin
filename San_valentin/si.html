@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>💖 Sí aceptó 💖</title>
+<style>
+    *{
+        box-sizing: border-box;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body{
+        margin:0;
+        height:100vh;
+        background: linear-gradient(135deg, #ff9ecf, #ff6fb5);
+        overflow:hidden;
+        display:flex;
+        justify-content:center;
+        align-items:center;
+        position:relative;
+    }
+
+    /* ===== Fotos alrededor (inicio) ===== */
+    .start-photo{
+        position:absolute;
+        width:100px;
+        height:100px;
+        object-fit:cover;
+        border-radius:12px;
+        box-shadow:0 6px 15px rgba(0,0,0,0.25);
+        opacity:0;
+        animation: aparecer 1s forwards, desaparecer 2s forwards 3s;
+        z-index:5;
+    }
+
+    @keyframes aparecer{
+        to{ opacity:1; }
+    }
+
+    @keyframes desaparecer{
+        to{ opacity:0; }
+    }
+
+    /* ===== Fotos cayendo ===== */
+    .falling-photo{
+        position:absolute;
+        width:65px;
+        height:65px;
+        object-fit:cover;
+        border-radius:10px;
+        animation: caer linear infinite;
+        opacity:0.95; /* MÁS VISIBLES */
+        z-index:1;
+    }
+
+    @keyframes caer{
+        0%{
+            transform: translateY(-10vh);
+        }
+        100%{
+            transform: translateY(110vh);
+        }
+    }
+
+    /* ===== Tarjeta ===== */
+    .card{
+        background:white;
+        padding:35px 30px;
+        border-radius:25px;
+        box-shadow:0 15px 40px rgba(0,0,0,0.25);
+        text-align:center;
+        max-width:450px;
+        width:90%;
+        z-index:10;
+    }
+
+    .photo{
+        width:220px;
+        height:auto;
+        border-radius:15px;
+        margin-bottom:20px;
+        box-shadow:0 8px 20px rgba(0,0,0,0.25);
+    }
+
+    .message{
+        font-size:26px;
+        font-weight:bold;
+        color:#e91e63;
+        line-height:1.4;
+    }
+</style>
+</head>
+
+<script>
+window.addEventListener("load", () => {
+    const music = document.getElementById("bgMusic");
+
+    // intentar reproducir
+    const playPromise = music.play();
+
+    if (playPromise !== undefined) {
+        playPromise.catch(() => {
+            // si el navegador lo bloquea, intenta en el primer click
+            document.addEventListener("click", () => {
+                music.play();
+            }, { once: true });
+        });
+    }
+});
+</script>
+
+<body>
+
+<!-- 🎶 MÚSICA DE FONDO -->
+<audio id="bgMusic" loop>
+    <source src="musica.mp3" type="audio/mpeg">
+</audio>
+
+
+<script>
+/* ===== TUS 6 FOTOS ===== */
+const fotos = [
+    "foto1.jpeg",
+    "foto2.jpeg",
+    "foto3.jpeg",
+    "foto4.jpeg",
+    "foto5.jpeg",
+    "foto6.jpeg",
+    "foto7.jpeg",
+    "foto8.jpeg",
+    "foto9.jpeg",
+    "foto10.jpeg"
+];
+
+/* ===== POSICIONES alrededor del contenedor ===== */
+const posiciones = [
+    {top:"15%", left:"20%"},
+    {top:"20%", right:"18%"},
+    {bottom:"18%", left:"22%"},
+    {bottom:"15%", right:"20%"},
+    {top:"50%", left:"10%"},
+    {top:"50%", right:"10%"},
+    {top:"10%", right:"60%"},
+    {top:"11%", left:"60%"},
+    {top:"80%", right:"60%"},
+    {top:"80%", left:"60%"}
+];
+
+/* ===== Fotos iniciales alrededor ===== */
+fotos.forEach((src, i)=>{
+    const img=document.createElement("img");
+    img.className="start-photo";
+    img.src=src;
+
+    Object.assign(img.style, posiciones[i]);
+
+    document.body.appendChild(img);
+});
+
+/* ===== Después de que desaparecen, empiezan a caer ===== */
+setTimeout(()=>{
+    for(let i=0;i<30;i++){
+        const img=document.createElement("img");
+        img.className="falling-photo";
+        img.src=fotos[i % fotos.length];
+        img.style.left=Math.random()*100+"vw";
+        img.style.animationDuration=(5+Math.random()*4)+"s";
+        img.style.animationDelay=(Math.random()*5)+"s";
+        document.body.appendChild(img);
+    }
+}, 4500);
+</script>
+
+<div class="card">
+  
+
+    <div class="message">
+        Gracias, mi cachetoncita hermosa 💖<br>
+        Ya quiero que sea mañana ✨ <br>
+        Te amo miamoreterno
+    </div>
+</div>
+
+</body>
+</html>
